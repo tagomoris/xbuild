@@ -1,0 +1,41 @@
+#!/bin/bash
+
+TARGET_VERSION=$1
+LOCATION=$2
+ARCH=$3
+
+if [ "x"$TARGET_VERSION = "x-h" -o "x"$TARGET_VERSION = "x--help" -o "x"$LOCATION = "x" ]; then
+    echo "[usage] node-install VERSION LOCATION [arch]"
+    echo "  ex: node-install v0.10.1 ~/local/node-v0.10"
+    echo "  ex: node-install v0.10.1 ~/local/node-v0.10 darwin-x86"
+    echo "  default arch is 'linux-x64'"
+    exit 0
+fi
+
+if [ "x"$ARCH = "x" ]; then
+    ARCH="linux-x64"
+fi
+
+cd $(dirname $0)
+
+ARCHIVE_FILENAME="node-"$TARGET_VERSION"-"$ARCH".tar.gz"
+ARCHIVE_DIRNAME="node-"$TARGET_VERSION"-"$ARCH
+
+set -e
+mkdir -p var/node-archive
+cd var/node-archive
+curl -s -O http://nodejs.org/dist/$TARGET_VERSION/$ARCHIVE_FILENAME
+
+cd ..
+tar xzf node-archive/$ARCHIVE_FILENAME
+
+if [ -d $LOCATION ]; then
+    [[ -d $LOCATION.replaced ]] && rm -rf $LOCATION.replaced
+    mv $LOCATION $LOCATION.replaced
+else
+    mkdir -p $LOCATION && rmdir $LOCATION
+fi
+mv $ARCHIVE_DIRNAME $LOCATION
+
+echo "node $TARGET_VERSION successfully installed on $LOCATION"
+echo "To use this node, do 'export PATH=$LOCATION/bin:\$PATH'."

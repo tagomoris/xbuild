@@ -1,0 +1,33 @@
+#!/bin/bash
+
+TARGET_VERSION=$1
+LOCATION=$2
+
+if [ "x"$TARGET_VERSION = "x-h" -o "x"$TARGET_VERSION = "x--help" -o "x"$LOCATION = "x" ]; then
+    echo "[usage] perl-install VERSION LOCATION"
+    echo "  ex: perl-install 5.16.3 ~/local/perl-5.16"
+    exit 0
+fi
+
+cd $(dirname $0)
+
+mkdir -p ./bin
+curl -s https://raw.github.com/tokuhirom/Perl-Build/master/perl-build > ./bin/perl-build
+curl -s -L http://cpanmin.us/ > ./bin/fatpack_cpanm
+
+perl ./bin/perl-build $TARGET_VERSION $LOCATION > /tmp/perl-install.log 2>&1
+RETVAL=$?
+if [ $RETVAL != 0 ]; then
+    echo "perl-build failed. see log: /tmp/perl-install.log"
+    exit 1
+fi
+
+$LOCATION/bin/perl ./bin/fatpack_cpanm --notest App::cpanminus Carton App::pmuninstall > /tmp/perl-install-cpanm.log 2>&1
+RETVAL=$?
+if [ $RETVAL != 0 ]; then
+    echo "failed to install cpanm/carton. see log: /tmp/perl-install-cpanm.log"
+    exit 2
+fi
+
+echo "perl $TARGET_VERSION (and cpanm/carton) successfully installed on $LOCATION"
+echo "To use this perl, do 'export PATH=$LOCATION/bin:\$PATH'."
