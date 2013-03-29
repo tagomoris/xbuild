@@ -11,10 +11,13 @@ fi
 
 cd $(dirname $0)
 
+set -e
 mkdir -p ./bin
 curl -s https://raw.github.com/tokuhirom/Perl-Build/master/perl-build > ./bin/perl-build
 curl -s -L http://cpanmin.us/ > ./bin/fatpack_cpanm
+set +e
 
+echo "Start to build perl $TARGET_VERSION ..."
 perl ./bin/perl-build $TARGET_VERSION $LOCATION > /tmp/perl-install.log 2>&1
 RETVAL=$?
 if [ $RETVAL != 0 ]; then

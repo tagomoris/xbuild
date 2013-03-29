@@ -23,6 +23,7 @@ if [ ! -d ./var/ruby-build ]; then
     ) || (echo "failed to download ruby-build" && exit 1)
 fi
 
+echo "Start to build ruby $TARGET_VERSION ..."
 ./var/ruby-build/bin/ruby-build $TARGET_VERSION $LOCATION > /tmp/ruby-install.log 2>&1
 RETVAL=$?
 if [ $RETVAL != 0 ]; then
