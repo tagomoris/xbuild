@@ -7,6 +7,7 @@ Supports:
 * Ruby
 * Node.js
 * PHP
+* Python
 
 ## How to install
 
@@ -37,6 +38,10 @@ Install PHP with some build options
 
     xbuild/php-install 5.5.0beta2 ~/local/php-5.5.0beta2 -- --with-pear --without-openssl
 
+Install Python (ex: 2.7.3)
+
+    xbuild/python-install 2.7.3 ~/local/python-2.7.3
+
 ## How to use
 
 Include installed `bin/` to PATH:
@@ -53,7 +58,11 @@ Include installed `bin/` to PATH:
     # node
     export PATH=$HOME/local/node-v0.10/bin:$PATH
     npm install
-
+    
     # php
     export PATH=$HOME/local/php-5.5.0beta2/bin:$PATH
     pear install
+    
+    # python
+    export PATH=$HOME/local/python-2.7.3/bin:$PATH
+    pip install -r requirements.txt
