@@ -4,5 +4,6 @@ lang=$1
 version=$2
 location=$3
 arch=$4
+rest=${@:5}
 current=$(dirname $0)
-exec "$current/${lang}-install" "$version" "$location" "$arch"
+exec "$current/${lang}-install" "$version" "$location" "$arch" "$rest"

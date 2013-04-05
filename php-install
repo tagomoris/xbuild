@@ -1,0 +1,36 @@
+#!/bin/bash
+
+TARGET_VERSION=$1
+LOCATION=$2
+CONFIGURE_OPTIONS=${@:4:($#-3)}
+
+if [ "x"$TARGET_VERSION = "x-h" -o "x"$TARGET_VERSION = "x--help" -o "x"$LOCATION = "x" ]; then
+    echo "[usage] php-install VERSION LOCATION -- CONFIGURE_OPTIONS"
+    echo "  ex: php-install 5.5snapshot ~/local/php-5.5snapshot -- --with-pear"
+    exit 0
+fi
+
+cd $(dirname $0)
+XBUILD_PATH=$(pwd)
+
+if [ ! -d ./var/php-build ]; then
+    (
+        set -e
+        mkdir -p var
+        cd var
+        git clone -q git://github.com/CHH/php-build.git php-build-repo
+        cd php-build-repo
+        PREFIX=$XBUILD_PATH/var/php-build ./install.sh >/dev/null 2>&1
+    ) || (echo "failed to download php-build" && exit 1)
+fi
+
+echo "Start to build php $TARGET_VERSION ..."
+PHP_BUILD_CONFIGURE_OPTS=$CONFIGURE_OPTIONS ./var/php-build/bin/php-build $TARGET_VERSION $LOCATION > /tmp/php-install.log 2>&1
+RETVAL=$?
+if [ $RETVAL != 0 ]; then
+    echo "php-build failed. see log: /tmp/php-install.log"
+    exit 1
+fi
+
+echo "php $TARGET_VERSION successfully installed on $LOCATION"
+echo "To use this php, do 'export PATH=$LOCATION/bin:\$PATH'."

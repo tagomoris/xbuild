@@ -6,6 +6,7 @@ Supports:
 * Perl
 * Ruby
 * Node.js
+* PHP
 
 ## How to install
 
@@ -28,6 +29,14 @@ To update minor version, overwrite simply.
     
     local/node-v0.10/bin/node -v #=> v0.10.1
 
+Install PHP (ex: 5.5snapshot)
+
+    xbuild/php-install 5.5snapshot ~/local/php-5.5snapshot
+
+Install PHP with build options
+
+    xbuild/php-install 5.5snapshot ~/local/php-5.5snapshot -- --with-pear --without-gd
+
 ## How to use
 
 Include installed `bin/` to PATH:
@@ -44,3 +53,7 @@ Include installed `bin/` to PATH:
     # node
     export PATH=$HOME/local/node-v0.10/bin:$PATH
     npm install
+
+    # php
+    export PATH=$HOME/local/php-5.5snapshot/bin:$PATH
+    pear install
