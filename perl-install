@@ -18,17 +18,17 @@ curl -s -L http://cpanmin.us/ > ./bin/fatpack_cpanm
 set +e
 
 echo "Start to build perl $TARGET_VERSION ..."
-perl ./bin/perl-build $TARGET_VERSION $LOCATION > /tmp/perl-install.log 2>&1
+perl ./bin/perl-build $TARGET_VERSION $LOCATION > /tmp/$USER-perl-install.log 2>&1
 RETVAL=$?
 if [ $RETVAL != 0 ]; then
-    echo "perl-build failed. see log: /tmp/perl-install.log"
+    echo "perl-build failed. see log: /tmp/$USER-perl-install.log"
     exit 1
 fi
 
-$LOCATION/bin/perl ./bin/fatpack_cpanm --notest App::cpanminus Carton App::pmuninstall > /tmp/perl-install-cpanm.log 2>&1
+$LOCATION/bin/perl ./bin/fatpack_cpanm --notest App::cpanminus Carton App::pmuninstall > /tmp/$USER-perl-install-cpanm.log 2>&1
 RETVAL=$?
 if [ $RETVAL != 0 ]; then
-    echo "failed to install cpanm/carton. see log: /tmp/perl-install-cpanm.log"
+    echo "failed to install cpanm/carton. see log: /tmp/$USER-perl-install-cpanm.log"
     exit 2
 fi
 
