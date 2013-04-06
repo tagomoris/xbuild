@@ -24,17 +24,17 @@ if [ ! -d ./var/ruby-build ]; then
 fi
 
 echo "Start to build ruby $TARGET_VERSION ..."
-./var/ruby-build/bin/ruby-build $TARGET_VERSION $LOCATION > /tmp/ruby-install.log 2>&1
+./var/ruby-build/bin/ruby-build $TARGET_VERSION $LOCATION > /tmp/$USER-ruby-install.log 2>&1
 RETVAL=$?
 if [ $RETVAL != 0 ]; then
-    echo "ruby-build failed. see log: /tmp/ruby-install.log"
+    echo "ruby-build failed. see log: /tmp/$USER-ruby-install.log"
     exit 1
 fi
 
-$LOCATION/bin/gem install --no-rdoc --no-ri bundler pry > /tmp/ruby-install-bundler.log 2>&1
+$LOCATION/bin/gem install --no-rdoc --no-ri bundler pry > /tmp/$USER-ruby-install-bundler.log 2>&1
 RETVAL=$?
 if [ $RETVAL != 0 ]; then
-    echo "gem install failed. see log /tmp/ruby-install-bundler.log"
+    echo "gem install failed. see log /tmp/$USER-ruby-install-bundler.log"
     exit 2
 fi
 

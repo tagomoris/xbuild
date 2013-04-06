@@ -25,10 +25,10 @@ if [ ! -d ./var/php-build ]; then
 fi
 
 echo "Start to build php $TARGET_VERSION ..."
-PHP_BUILD_CONFIGURE_OPTS=$CONFIGURE_OPTIONS ./var/php-build/bin/php-build $TARGET_VERSION $LOCATION > /tmp/php-install.log 2>&1
+PHP_BUILD_CONFIGURE_OPTS=$CONFIGURE_OPTIONS ./var/php-build/bin/php-build $TARGET_VERSION $LOCATION > /tmp/$USER-php-install.log 2>&1
 RETVAL=$?
 if [ $RETVAL != 0 ]; then
-    echo "php-build failed. see log: /tmp/php-install.log"
+    echo "php-build failed. see log: /tmp/$USER-php-install.log"
     exit 1
 fi
 

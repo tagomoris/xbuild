@@ -24,10 +24,10 @@ if [ ! -d ./var/python-build ]; then
 fi
 
 echo "Start to build python $TARGET_VERSION ..."
-./var/python-build/bin/python-build $TARGET_VERSION $LOCATION > /tmp/python-install.log 2>&1
+./var/python-build/bin/python-build $TARGET_VERSION $LOCATION > /tmp/$USER-python-install.log 2>&1
 RETVAL=$?
 if [ $RETVAL != 0 ]; then
-    echo "python-build failed. see log: /tmp/python-install.log"
+    echo "python-build failed. see log: /tmp/$USER-python-install.log"
     exit 1
 fi
 
