@@ -26,9 +26,7 @@ Install node.js (ex: v0.10.1)
 Install PHP (ex: 5.5.0beta2)
 
     xbuild/php-install 5.5.0beta2 ~/local/php-5.5.0beta2
-
-Install PHP with some build options
-
+    # with some build options
     xbuild/php-install 5.5.0beta2 ~/local/php-5.5.0beta2 -- --with-pear --without-openssl
 
 Install Python (ex: 2.7.3)
