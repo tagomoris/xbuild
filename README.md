@@ -15,7 +15,7 @@ Install perl (ex: 5.16.3) (and cpanm/carton/pmuninstall)
 
     xbuild/perl-install 5.16.3 ~/local/perl-5.16
 
-Install ruby (ex: 2.0.0-p0)
+Install ruby (ex: 2.0.0-p0) (nad bundler)
 
     xbuild/ruby-install 2.0.0-p0 ~/local/ruby-2.0.0
 
