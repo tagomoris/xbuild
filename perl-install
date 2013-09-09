@@ -25,7 +25,7 @@ if [ $RETVAL != 0 ]; then
     exit 1
 fi
 
-$LOCATION/bin/perl ./bin/fatpack_cpanm --notest App::cpanminus Carton App::pmuninstall Server::Starter > /tmp/$USER-perl-install-cpanm.log 2>&1
+$LOCATION/bin/perl ./bin/fatpack_cpanm --notest App::cpanminus Carton Server::Starter > /tmp/$USER-perl-install-cpanm.log 2>&1
 RETVAL=$?
 if [ $RETVAL != 0 ]; then
     echo "failed to install cpanm/carton. see log: /tmp/$USER-perl-install-cpanm.log"
