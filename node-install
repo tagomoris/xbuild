@@ -40,7 +40,7 @@ mv $ARCHIVE_DIRNAME $LOCATION
 $LOCATION/bin/npm install -g node-gyp > /tmp/$USER-node-install-npm.log 2>&1
 RETVAL=$?
 if [ $RETVAL != 0 ]; then
-    echo "npm install failed. see log /tmp/$USER-ruby-install-bundler.log"
+    echo "npm install failed. see log /tmp/$USER-node-install-npm.log"
     exit 2
 fi
 
