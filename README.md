@@ -11,7 +11,7 @@ Supports:
 
 ## How to install
 
-Install perl (ex: 5.16.3) (and cpanm/carton/pmuninstall)
+Install perl (ex: 5.16.3) (and cpanm/carton/start_server)
 
     xbuild/perl-install 5.16.3 ~/local/perl-5.16
 
