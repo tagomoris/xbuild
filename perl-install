@@ -18,7 +18,7 @@ curl -s -L http://cpanmin.us/ > ./bin/fatpack_cpanm
 set +e
 
 echo "Start to build perl $TARGET_VERSION ..."
-perl ./bin/perl-build $TARGET_VERSION $LOCATION > /tmp/$USER-perl-install.log 2>&1
+perl ./bin/perl-build -DDEBUGGING=-g $TARGET_VERSION $LOCATION > /tmp/$USER-perl-install.log 2>&1
 RETVAL=$?
 if [ $RETVAL != 0 ]; then
     echo "perl-build failed. see log: /tmp/$USER-perl-install.log"
