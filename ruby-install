@@ -13,8 +13,8 @@ cd $(dirname $0)
 XBUILD_PATH=$(pwd)
 
 mkdir -p var
-oldcheck=$(find var -name "ruby-build.date" -mtime 1)
-if [ ! -f ./var/ruby-build.date -o "x"$oldcheck != "x" ]; then
+oldcheck=$(find var -name "ruby-build.date" -mtime -1)
+if [ ! -f ./var/ruby-build.date -o "x"$oldcheck = "x" ]; then
     (
         echo "cloning latest ruby-build."
         set -e
