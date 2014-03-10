@@ -16,7 +16,7 @@ CONFIGURE_OPTIONS=${@:4:($#-3)}
 
 if [ "x"$FLAG_HELP != "x" -o "x$LOCATION" = "x" ]; then
     echo "[usage] php-install [-f] VERSION LOCATION -- CONFIGURE_OPTIONS"
-    echo "  ex: php-install 5.5snapshot ~/local/php-5.5snapshot -- --with-pear"
+    echo "  ex: php-install 5.5.10 ~/local/php-5.5.10 -- --with-pear"
     exit 0
 fi
 

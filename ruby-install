@@ -15,7 +15,7 @@ LOCATION="$2"
 
 if [ "x"$FLAG_HELP != "x" -o "x$LOCATION" = "x" ]; then
     echo "[usage] ruby-install [-f] VERSION LOCATION"
-    echo "  ex: ruby-install 1.9.3-p392 ~/local/ruby-1.9.3"
+    echo "  ex: ruby-install 2.1.1 ~/local/ruby-2.1"
     exit 0
 fi
 

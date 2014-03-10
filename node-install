@@ -16,8 +16,8 @@ ARCH="$3"
 
 if [ "x"$FLAG_HELP != "x" -o "x$LOCATION" = "x" ]; then
     echo "[usage] node-install [-f] VERSION LOCATION [arch]"
-    echo "  ex: node-install v0.10.1 ~/local/node-v0.10"
-    echo "  ex: node-install v0.10.1 ~/local/node-v0.10 darwin-x86"
+    echo "  ex: node-install v0.10.26 ~/local/node-v0.10"
+    echo "  ex: node-install v0.10.26 ~/local/node-v0.10 darwin-x86"
     echo "  default arch is 'linux-x64'"
     exit 0
 fi

@@ -15,7 +15,7 @@ LOCATION="$2"
 
 if [ "x"$FLAG_HELP != "x" -o "x$LOCATION" = "x" ]; then
     echo "[usage] perl-install [-f] VERSION LOCATION"
-    echo "  ex: perl-install 5.16.3 ~/local/perl-5.16"
+    echo "  ex: perl-install 5.18.2 ~/local/perl-5.18"
     exit 0
 fi
 

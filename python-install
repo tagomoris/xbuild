@@ -15,7 +15,7 @@ LOCATION="$2"
 
 if [ "x"$FLAG_HELP != "x" -o "x$LOCATION" = "x" ]; then
     echo "[usage] python-install [-f] VERSION LOCATION"
-    echo "  ex: python-install 2.7.3 ~/local/python-2.7.3"
+    echo "  ex: python-install 2.7.6 ~/local/python-2.7.6"
     exit 0
 fi
 
