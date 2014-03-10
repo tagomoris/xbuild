@@ -1,11 +1,21 @@
 #!/bin/bash
 
+while getopts fh OPT
+do
+    case $OPT in
+        "f") FLAG_FORCE="TRUE" ;;
+        "h") FLAG_HELP="TRUE" ;;
+        * ) FLAG_HELP="TRUE" ;;
+    esac
+done
+shift `expr $OPTIND - 1`
+
 TARGET_VERSION=$1
 LOCATION=$2
 CONFIGURE_OPTIONS=${@:4:($#-3)}
 
-if [ "x"$TARGET_VERSION = "x-h" -o "x"$TARGET_VERSION = "x--help" -o "x"$LOCATION = "x" ]; then
-    echo "[usage] php-install VERSION LOCATION -- CONFIGURE_OPTIONS"
+if [ "x"$FLAG_HELP != "x" -o "x"$LOCATION = "x" ]; then
+    echo "[usage] php-install [-f] VERSION LOCATION -- CONFIGURE_OPTIONS"
     echo "  ex: php-install 5.5snapshot ~/local/php-5.5snapshot -- --with-pear"
     exit 0
 fi
@@ -22,6 +32,16 @@ if [ ! -d ./var/php-build ]; then
         cd php-build-repo
         PREFIX=$XBUILD_PATH/var/php-build ./install.sh >/dev/null 2>&1
     ) || (echo "failed to download php-build" && exit 1)
+fi
+
+if [ "x"$FLAG_FORCE = "x" -a -d $LOCATION -a -x $LOCATION/bin/php ]; then
+    version_pattern=$(echo "$TARGET_VERSION" | sed -e 's/\./\\\./')
+    check=$($LOCATION/bin/php -v | head -1 | grep "$version_pattern")
+    if [ "x$check" != "x" ]; then
+        echo "php $TARGET_VERSION already installed on $LOCATION"
+        echo "To do force re-install, use '-f' option"
+        exit 0
+    fi
 fi
 
 echo "Start to build php $TARGET_VERSION ..."

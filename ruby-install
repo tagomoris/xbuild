@@ -1,10 +1,20 @@
 #!/bin/bash
 
+while getopts fh OPT
+do
+    case $OPT in
+        "f") FLAG_FORCE="TRUE" ;;
+        "h") FLAG_HELP="TRUE" ;;
+        * ) FLAG_HELP="TRUE" ;;
+    esac
+done
+shift `expr $OPTIND - 1`
+
 TARGET_VERSION=$1
 LOCATION=$2
 
-if [ "x"$TARGET_VERSION = "x-h" -o "x"$TARGET_VERSION = "x--help" -o "x"$LOCATION = "x" ]; then
-    echo "[usage] ruby-install VERSION LOCATION"
+if [ "x"$FLAG_HELP != "x" -o "x"$LOCATION = "x" ]; then
+    echo "[usage] ruby-install [-f] VERSION LOCATION"
     echo "  ex: ruby-install 1.9.3-p392 ~/local/ruby-1.9.3"
     exit 0
 fi
@@ -27,6 +37,23 @@ if [ ! -f ./var/ruby-build.date -o "x"$oldcheck = "x" ]; then
     ) || (echo "failed to download ruby-build" && exit 1)
 fi
 rm -f ./var/.24hours
+
+if [ "x"$FLAG_FORCE = "x" -a -d $LOCATION -a -x $LOCATION/bin/ruby ]; then
+    miss=""
+    current_ver=$($LOCATION/bin/ruby -v)
+    for p in $(echo $TARGET_VERSION | sed -e 's/\./\\\./g;s/-/ /g');
+    do
+        hit=$(echo "$current_ver" | grep "$p")
+        if [ "x$hit" = "x" ]; then
+            miss="1"$miss
+        fi
+    done        
+    if [ "x$miss" = "x" ]; then
+        echo "ruby $TARGET_VERSION already installed on $LOCATION"
+        echo "To do force re-install, use '-f' option"
+        exit 0
+    fi
+fi
 
 echo "Start to build ruby $TARGET_VERSION ..."
 ./var/ruby-build/bin/ruby-build $TARGET_VERSION $LOCATION > /tmp/$USER-ruby-install.log 2>&1

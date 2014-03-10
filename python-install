@@ -1,10 +1,20 @@
 #!/bin/bash
 
+while getopts fh OPT
+do
+    case $OPT in
+        "f") FLAG_FORCE="TRUE" ;;
+        "h") FLAG_HELP="TRUE" ;;
+        * ) FLAG_HELP="TRUE" ;;
+    esac
+done
+shift `expr $OPTIND - 1`
+
 TARGET_VERSION=$1
 LOCATION=$2
 
-if [ "x"$TARGET_VERSION = "x-h" -o "x"$TARGET_VERSION = "x--help" -o "x"$LOCATION = "x" ]; then
-    echo "[usage] python-install VERSION LOCATION"
+if [ "x"$FLAG_HELP != "x" -o "x"$LOCATION = "x" ]; then
+    echo "[usage] python-install [-f] VERSION LOCATION"
     echo "  ex: python-install 2.7.3 ~/local/python-2.7.3"
     exit 0
 fi
@@ -21,6 +31,15 @@ if [ ! -d ./var/python-build ]; then
         cd pyenv-repo/plugins/python-build
         PREFIX=$XBUILD_PATH/var/python-build ./install.sh >/dev/null 2>&1
     ) || (echo "failed to download python-build" && exit 1)
+fi
+
+if [ "x"$FLAG_FORCE = "x" -a -d $LOCATION -a -x $LOCATION/bin/python ]; then
+    current_ver=$($LOCATION/bin/python --version)
+    if [ "x$current_ver" = "xPython $TARGET_VERSION" ]; then
+        echo "python $TARGET_VERSION already installed on $LOCATION"
+        echo "To do force re-install, use '-f' option"
+        exit 0
+    fi
 fi
 
 echo "Start to build python $TARGET_VERSION ..."

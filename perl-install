@@ -1,10 +1,20 @@
 #!/bin/bash
 
+while getopts fh OPT
+do
+    case $OPT in
+        "f") FLAG_FORCE="TRUE" ;;
+        "h") FLAG_HELP="TRUE" ;;
+        * ) FLAG_HELP="TRUE" ;;
+    esac
+done
+shift `expr $OPTIND - 1`
+
 TARGET_VERSION=$1
 LOCATION=$2
 
-if [ "x"$TARGET_VERSION = "x-h" -o "x"$TARGET_VERSION = "x--help" -o "x"$LOCATION = "x" ]; then
-    echo "[usage] perl-install VERSION LOCATION"
+if [ "x"$FLAG_HELP != "x" -o "x"$LOCATION = "x" ]; then
+    echo "[usage] perl-install [-f] VERSION LOCATION"
     echo "  ex: perl-install 5.16.3 ~/local/perl-5.16"
     exit 0
 fi
@@ -16,6 +26,15 @@ mkdir -p ./bin
 curl -s https://raw.github.com/tokuhirom/Perl-Build/master/perl-build > ./bin/perl-build
 curl -s -L http://cpanmin.us/ > ./bin/fatpack_cpanm
 set +e
+
+if [ "x"$FLAG_FORCE = "x" -a -d $LOCATION -a -x $LOCATION/bin/perl ]; then
+    check=$($LOCATION/bin/perl -v | grep "This is perl" | grep "v$TARGET_VERSION")
+    if [ "x$check" != "x" ]; then
+        echo "perl $TARGET_VERSION already installed on $LOCATION"
+        echo "To do force re-install, use '-f' option"
+        exit 0
+    fi
+fi
 
 echo "Start to build perl $TARGET_VERSION ..."
 perl ./bin/perl-build -DDEBUGGING=-g $TARGET_VERSION $LOCATION > /tmp/$USER-perl-install.log 2>&1

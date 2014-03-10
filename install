@@ -1,9 +1,29 @@
 #!/bin/bash
 
+while getopts fh OPT
+do
+    case $OPT in
+        "f") FLAG_FORCE="TRUE" ;;
+        "h") FLAG_HELP="TRUE" ;;
+        * ) FLAG_HELP="TRUE" ;;
+    esac
+done
+shift `expr $OPTIND - 1`
+
+if [ "x"$FLAG_HELP != "x" ]; then
+    echo "[usage] install [-f] LANG VERSION LOCATION [...]"
+    echo "  ex: install ruby 2.1.1 ~/local/ruby-2.1"
+    exit 0
+fi
+
 lang=$1
 version=$2
 location=$3
 arch=$4
 rest=${@:5}
 current=$(dirname $0)
-exec "$current/${lang}-install" "$version" "$location" "$arch" "$rest"
+if [ "x"$FLAG_FORCE != "x" ]; then
+    exec "$current/${lang}-install" "-f" "$version" "$location" "$arch" "$rest"
+else
+    exec "$current/${lang}-install" "$version" "$location" "$arch" "$rest"
+fi

@@ -48,6 +48,14 @@ Or, you can use `install` command simply.
     #
     xbuild/install ruby 2.0.0-p0 ~/local/ruby-2.0.0
 
+### Replayable installation
+
+`xbuild` checks specified install path before actual installation, and skips it if specified version runtime already exists.
+
+For force re-install, use `-f` option.
+
+    xbuild/ruby-install -f 2.1.1 ~/local/ruby-2.1
+
 ## How to use
 
 Include installed `bin/` to PATH:
