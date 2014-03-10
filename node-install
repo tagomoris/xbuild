@@ -10,11 +10,11 @@ do
 done
 shift `expr $OPTIND - 1`
 
-TARGET_VERSION=$1
-LOCATION=$2
-ARCH=$3
+TARGET_VERSION="$1"
+LOCATION="$2"
+ARCH="$3"
 
-if [ "x"$FLAG_HELP != "x" -o "x"$LOCATION = "x" ]; then
+if [ "x"$FLAG_HELP != "x" -o "x$LOCATION" = "x" ]; then
     echo "[usage] node-install [-f] VERSION LOCATION [arch]"
     echo "  ex: node-install v0.10.1 ~/local/node-v0.10"
     echo "  ex: node-install v0.10.1 ~/local/node-v0.10 darwin-x86"
@@ -22,14 +22,14 @@ if [ "x"$FLAG_HELP != "x" -o "x"$LOCATION = "x" ]; then
     exit 0
 fi
 
-if [ "x"$ARCH = "x" ]; then
+if [ "x$ARCH" = "x" ]; then
     ARCH="linux-x64"
 fi
 
 cd $(dirname $0)
 
-if [ "x"$FLAG_FORCE = "x" -a -d $LOCATION -a -x $LOCATION/bin/node ]; then
-    current_ver=$($LOCATION/bin/node -v)
+if [ "x"$FLAG_FORCE = "x" -a -d "$LOCATION" -a -x "$LOCATION/bin/node" ]; then
+    current_ver=$("$LOCATION"/bin/node -v)
     if [ "x$current_ver" = "x$TARGET_VERSION" ]; then
         echo "node $TARGET_VERSION already installed on $LOCATION"
         echo "To do force re-install, use '-f' option"
@@ -37,26 +37,26 @@ if [ "x"$FLAG_FORCE = "x" -a -d $LOCATION -a -x $LOCATION/bin/node ]; then
     fi
 fi
 
-ARCHIVE_FILENAME="node-"$TARGET_VERSION"-"$ARCH".tar.gz"
-ARCHIVE_DIRNAME="node-"$TARGET_VERSION"-"$ARCH
+ARCHIVE_FILENAME="node-$TARGET_VERSION-$ARCH.tar.gz"
+ARCHIVE_DIRNAME="node-$TARGET_VERSION-$ARCH"
 
 set -e
 mkdir -p var/node-archive
 cd var/node-archive
-curl -s -O http://nodejs.org/dist/$TARGET_VERSION/$ARCHIVE_FILENAME
+curl -s -O http://nodejs.org/dist/"$TARGET_VERSION"/"$ARCHIVE_FILENAME"
 
 cd ..
-tar xzf node-archive/$ARCHIVE_FILENAME
+tar xzf node-archive/"$ARCHIVE_FILENAME"
 
-if [ -d $LOCATION ]; then
-    [[ -d $LOCATION.replaced ]] && rm -rf $LOCATION.replaced
-    mv $LOCATION $LOCATION.replaced
+if [ -d "$LOCATION" ]; then
+    [[ -d "$LOCATION.replaced" ]] && rm -rf "$LOCATION.replaced"
+    mv "$LOCATION" "$LOCATION.replaced"
 else
-    mkdir -p $LOCATION && rmdir $LOCATION
+    mkdir -p "$LOCATION" && rmdir "$LOCATION"
 fi
-mv $ARCHIVE_DIRNAME $LOCATION
+mv "$ARCHIVE_DIRNAME" "$LOCATION"
 
-$LOCATION/bin/npm install -g node-gyp > /tmp/$USER-node-install-npm.log 2>&1
+"$LOCATION"/bin/npm install -g node-gyp > /tmp/$USER-node-install-npm.log 2>&1
 RETVAL=$?
 if [ $RETVAL != 0 ]; then
     echo "npm install failed. see log /tmp/$USER-node-install-npm.log"

@@ -10,10 +10,10 @@ do
 done
 shift `expr $OPTIND - 1`
 
-TARGET_VERSION=$1
-LOCATION=$2
+TARGET_VERSION="$1"
+LOCATION="$2"
 
-if [ "x"$FLAG_HELP != "x" -o "x"$LOCATION = "x" ]; then
+if [ "x"$FLAG_HELP != "x" -o "x$LOCATION" = "x" ]; then
     echo "[usage] python-install [-f] VERSION LOCATION"
     echo "  ex: python-install 2.7.3 ~/local/python-2.7.3"
     exit 0
@@ -29,12 +29,12 @@ if [ ! -d ./var/python-build ]; then
         cd var
         git clone -q git://github.com/yyuu/pyenv.git pyenv-repo
         cd pyenv-repo/plugins/python-build
-        PREFIX=$XBUILD_PATH/var/python-build ./install.sh >/dev/null 2>&1
+        PREFIX="$XBUILD_PATH"/var/python-build ./install.sh >/dev/null 2>&1
     ) || (echo "failed to download python-build" && exit 1)
 fi
 
-if [ "x"$FLAG_FORCE = "x" -a -d $LOCATION -a -x $LOCATION/bin/python ]; then
-    current_ver=$($LOCATION/bin/python --version)
+if [ "x"$FLAG_FORCE = "x" -a -d "$LOCATION" -a -x "$LOCATION/bin/python" ]; then
+    current_ver=$("$LOCATION"/bin/python --version)
     if [ "x$current_ver" = "xPython $TARGET_VERSION" ]; then
         echo "python $TARGET_VERSION already installed on $LOCATION"
         echo "To do force re-install, use '-f' option"
@@ -43,7 +43,7 @@ if [ "x"$FLAG_FORCE = "x" -a -d $LOCATION -a -x $LOCATION/bin/python ]; then
 fi
 
 echo "Start to build python $TARGET_VERSION ..."
-./var/python-build/bin/python-build $TARGET_VERSION $LOCATION > /tmp/$USER-python-install.log 2>&1
+./var/python-build/bin/python-build "$TARGET_VERSION" "$LOCATION" > /tmp/$USER-python-install.log 2>&1
 RETVAL=$?
 if [ $RETVAL != 0 ]; then
     echo "python-build failed. see log: /tmp/$USER-python-install.log"
