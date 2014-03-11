@@ -34,7 +34,7 @@ if [ ! -d ./var/python-build ]; then
 fi
 
 if [ "x"$FLAG_FORCE = "x" -a -d "$LOCATION" -a -x "$LOCATION/bin/python" ]; then
-    current_ver=$("$LOCATION"/bin/python --version)
+    current_ver=$("$LOCATION"/bin/python --version  2>&1 )
     if [ "x$current_ver" = "xPython $TARGET_VERSION" ]; then
         echo "python $TARGET_VERSION already installed on $LOCATION"
         echo "To do force re-install, use '-f' option"
