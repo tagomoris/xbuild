@@ -12,9 +12,10 @@ shift `expr $OPTIND - 1`
 
 TARGET_VERSION="$1"
 LOCATION="$2"
+CONFIGURE_OPTIONS=${@:4}
 
 if [ "x"$FLAG_HELP != "x" -o "x$LOCATION" = "x" ]; then
-    echo "[usage] perl-install [-f] VERSION LOCATION"
+    echo "[usage] perl-install [-f] VERSION LOCATION [-- CONFIGURE_OPTIONS]"
     echo "  ex: perl-install 5.18.2 ~/local/perl-5.18"
     exit 0
 fi
@@ -37,7 +38,7 @@ if [ "x"$FLAG_FORCE = "x" -a -d "$LOCATION" -a -x "$LOCATION/bin/perl" ]; then
 fi
 
 echo "Start to build perl $TARGET_VERSION ..."
-perl ./bin/perl-build -DDEBUGGING=-g "$TARGET_VERSION" "$LOCATION" > /tmp/$USER-perl-install.log 2>&1
+perl ./bin/perl-build -DDEBUGGING=-g $CONFIGURE_OPTIONS "$TARGET_VERSION" "$LOCATION" > /tmp/$USER-perl-install.log 2>&1
 RETVAL=$?
 if [ $RETVAL != 0 ]; then
     echo "perl-build failed. see log: /tmp/$USER-perl-install.log"
