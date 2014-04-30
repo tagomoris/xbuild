@@ -24,8 +24,8 @@ cd $(dirname $0)
 
 set -e
 mkdir -p ./bin
-curl -s https://raw.github.com/tokuhirom/Perl-Build/master/perl-build > ./bin/perl-build
-curl -s -L http://cpanmin.us/ > ./bin/fatpack_cpanm
+curl -s https://raw.githubusercontent.com/tokuhirom/Perl-Build/master/perl-build > ./bin/perl-build
+curl -s --sslv3 -L http://cpanmin.us/ > ./bin/fatpack_cpanm
 set +e
 
 if [ "x"$FLAG_FORCE = "x" -a -d "$LOCATION" -a -x "$LOCATION/bin/perl" ]; then
