@@ -65,7 +65,12 @@ fi
 
 (
     export PATH="$LOCATION"/bin:"$PATH"
-    "$LOCATION"/bin/gem install --no-rdoc --no-ri bundler pry > /tmp/$USER-ruby-install-bundler.log 2>&1
+    gems="pry"
+    bundle_path=$(which bundle)
+    if [ "x"$bundle_path = "x" ]; then
+        gems="bundler $gems"
+    fi
+    "$LOCATION"/bin/gem install --no-rdoc --no-ri $gems > /tmp/$USER-ruby-install-bundler.log 2>&1
 ) || (echo "gem install failed. see log /tmp/$USER-ruby-install-bundler.log" && exit 2)
 
 echo "ruby $TARGET_VERSION successfully installed on $LOCATION"
