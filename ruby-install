@@ -66,8 +66,7 @@ fi
 (
     export PATH="$LOCATION"/bin:"$PATH"
     gems="pry"
-    bundle_path=$(which bundle)
-    if [ "x"$bundle_path = "x" ]; then
+    if [ ! -x "$LOCATION"/bin/bundle ]; then
         gems="bundler $gems"
     fi
     "$LOCATION"/bin/gem install --no-rdoc --no-ri $gems > /tmp/$USER-ruby-install-bundler.log 2>&1
