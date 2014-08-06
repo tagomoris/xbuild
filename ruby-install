@@ -34,7 +34,8 @@ if [ ! -f ./var/ruby-build.date -o "x"$oldcheck = "x" ]; then
         touch ruby-build.date
         cd ruby-build-repo
         PREFIX="$XBUILD_PATH"/var/ruby-build ./install.sh >/dev/null 2>&1
-    ) || (echo "failed to download ruby-build" && exit 1)
+    )
+    if [ 0 != "$?" ]; then echo "failed to download ruby-build"; exit 1; fi
 fi
 rm -f ./var/.24hours
 
@@ -70,7 +71,8 @@ fi
         gems="bundler $gems"
     fi
     "$LOCATION"/bin/gem install --no-rdoc --no-ri $gems > /tmp/$USER-ruby-install-bundler.log 2>&1
-) || (echo "gem install failed. see log /tmp/$USER-ruby-install-bundler.log" && exit 2)
+)
+if [ 0 != "$?" ]; then echo "gem install failed. see log /tmp/$USER-ruby-install-bundler.log"; exit 2; fi
 
 echo "ruby $TARGET_VERSION successfully installed on $LOCATION"
 echo "To use this ruby, do 'export PATH=$LOCATION/bin:\$PATH'."
