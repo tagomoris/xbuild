@@ -39,15 +39,13 @@ fi
 
 echo "Start to build perl $TARGET_VERSION ..."
 perl ./bin/perl-build -DDEBUGGING=-g $CONFIGURE_OPTIONS "$TARGET_VERSION" "$LOCATION" > /tmp/$USER-perl-install.log 2>&1
-RETVAL=$?
-if [ $RETVAL != 0 ]; then
+if [ $? -ne 0 ]; then
     echo "perl-build failed. see log: /tmp/$USER-perl-install.log"
     exit 1
 fi
 
 "$LOCATION"/bin/perl ./bin/fatpack_cpanm --notest App::cpanminus Carton Server::Starter > /tmp/$USER-perl-install-cpanm.log 2>&1
-RETVAL=$?
-if [ $RETVAL != 0 ]; then
+if [ $? -ne 0 ]; then
     echo "failed to install cpanm/carton. see log: /tmp/$USER-perl-install-cpanm.log"
     exit 2
 fi
