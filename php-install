@@ -31,7 +31,11 @@ if [ ! -d ./var/php-build ]; then
         git clone -q git://github.com/CHH/php-build.git php-build-repo
         cd php-build-repo
         PREFIX="$XBUILD_PATH"/var/php-build ./install.sh >/dev/null 2>&1
-    ) || (echo "failed to download php-build" && exit 1)
+    )
+    if [ $? -ne 0 ]; then
+        echo "failed to download php-build"
+        exit 1
+    fi
 fi
 
 if [ "x"$FLAG_FORCE = "x" -a -d "$LOCATION" -a -x "$LOCATION/bin/php" ]; then
