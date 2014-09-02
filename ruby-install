@@ -30,7 +30,7 @@ if [ ! -f ./var/ruby-build.date -o "x"$oldcheck = "x" ]; then
         set -e
         cd var
         [ -d ./ruby-build -o -d ruby-build-repo ] && rm -rf ruby-build-repo ruby-build ruby-build.date
-        git clone -q git://github.com/sstephenson/ruby-build.git ruby-build-repo
+        git clone -q https://github.com/sstephenson/ruby-build.git ruby-build-repo
         touch ruby-build.date
         cd ruby-build-repo
         PREFIX="$XBUILD_PATH"/var/ruby-build ./install.sh >/dev/null 2>&1
