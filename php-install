@@ -28,7 +28,7 @@ if [ ! -d ./var/php-build ]; then
         set -e
         mkdir -p var
         cd var
-        git clone -q git://github.com/CHH/php-build.git php-build-repo
+        git clone -q https://github.com/CHH/php-build.git php-build-repo
         cd php-build-repo
         PREFIX="$XBUILD_PATH"/var/php-build ./install.sh >/dev/null 2>&1
     )
