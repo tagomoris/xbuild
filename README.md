@@ -8,6 +8,7 @@ Supports:
 * Node.js
 * PHP
 * Python
+* Go
 
 ## How to install
 
@@ -32,6 +33,10 @@ Install PHP (ex: 5.5.10)
 Install Python (ex: 2.7.6)
 
     xbuild/python-install 2.7.6 ~/local/python-2.7.6
+
+Install Go (ex: 1.3.3)
+
+    xbuild/go-install 1.3.3 ~/local/go-1.3.3
 
 To update minor version, overwrite simply.
 
@@ -80,6 +85,11 @@ Include installed `bin/` to PATH:
     # python
     export PATH=$HOME/local/python-2.7.6/bin:$PATH
     pip install -r requirements.txt
+
+    # go
+    export GOROOT=$HOME/local/go-1.3.3
+    export PATH=$GOROOT/bin:$PATH
+    go version
 
 ## How to try with Docker
 
