@@ -81,6 +81,14 @@ Include installed `bin/` to PATH:
     export PATH=$HOME/local/python-2.7.6/bin:$PATH
     pip install -r requirements.txt
 
+## How to try with Docker
+
+You should be install Docker.
+
+    $ docker build -t xbuild-try .
+    $ docker run --rm -i -t xbuild-try /bin/bash
+    in docker > $ xbuild-install ruby 2.1.1 /usr/local/ruby-2.1.1
+
 ## Contributors
 
 * kentaro for PHP
