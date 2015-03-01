@@ -19,6 +19,11 @@ if [ "x"$FLAG_HELP != "x" -o "x$LOCATION" = "x" ]; then
     echo "  ex: node-install v0.10.26 ~/local/node-v0.10"
     echo "  ex: node-install v0.10.26 ~/local/node-v0.10 darwin-x86"
     echo "  default arch is 'linux-x64'"
+    echo ""
+    echo "  for io.js:"
+    echo "  ex: node-install iojs-v1.2.0 ~/local/iojs-v.1.2.0"
+    echo "  ex: node-install iojs-v1.2.0 ~/local/iojs-v.1.2.0 darwin-x64"
+
     exit 0
 fi
 
@@ -37,13 +42,22 @@ if [ "x"$FLAG_FORCE = "x" -a -d "$LOCATION" -a -x "$LOCATION/bin/node" ]; then
     fi
 fi
 
-ARCHIVE_FILENAME="node-$TARGET_VERSION-$ARCH.tar.gz"
-ARCHIVE_DIRNAME="node-$TARGET_VERSION-$ARCH"
+if [ "${TARGET_VERSION:0:5}" == "iojs-" ]; then
+    IOJS_TARGET_VERSION="${TARGET_VERSION#iojs-}"
+
+    ARCHIVE_FILENAME="iojs-$IOJS_TARGET_VERSION-$ARCH.tar.gz"
+    ARCHIVE_DIRNAME="iojs-$IOJS_TARGET_VERSION-$ARCH"
+    ARCHIVE_URL="https://iojs.org/dist/$IOJS_TARGET_VERSION/$ARCHIVE_FILENAME"
+else
+    ARCHIVE_FILENAME="node-$TARGET_VERSION-$ARCH.tar.gz"
+    ARCHIVE_DIRNAME="node-$TARGET_VERSION-$ARCH"
+    ARCHIVE_URL="http://nodejs.org/dist/$TARGET_VERSION/$ARCHIVE_FILENAME"
+fi
 
 set -e
 mkdir -p var/node-archive
 cd var/node-archive
-curl -s -O http://nodejs.org/dist/"$TARGET_VERSION"/"$ARCHIVE_FILENAME"
+curl -s -O $ARCHIVE_URL
 
 cd ..
 tar xzf node-archive/"$ARCHIVE_FILENAME"
