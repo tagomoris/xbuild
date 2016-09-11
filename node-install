@@ -70,7 +70,7 @@ else
 fi
 mv "$ARCHIVE_DIRNAME" "$LOCATION"
 
-"$LOCATION"/bin/npm install -g node-gyp > /tmp/$USER-node-install-npm.log 2>&1
+PATH="$LOCATION"/bin:$PATH "$LOCATION"/bin/npm install -g node-gyp > /tmp/$USER-node-install-npm.log 2>&1
 if [ $? -ne 0 ]; then
     echo "npm install failed. see log /tmp/$USER-node-install-npm.log"
     exit 2
