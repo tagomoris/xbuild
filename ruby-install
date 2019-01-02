@@ -51,7 +51,7 @@ if [ "x"$FLAG_FORCE = "x" -a -d "$LOCATION" -a -x "$LOCATION/bin/ruby" ]; then
         if [ "x$hit" = "x" ]; then
             miss="1"$miss
         fi
-    done        
+    done
     if [ "x$miss" = "x" ]; then
         echo "ruby $TARGET_VERSION already installed on $LOCATION"
         echo "To do force re-install, use '-f' option"
@@ -73,7 +73,7 @@ fi
         gems="bundler $gems"
     fi
     set -e
-    "$LOCATION"/bin/gem install --no-rdoc --no-ri $gems > /tmp/$USER-ruby-install-bundler.log 2>&1
+    "$LOCATION"/bin/gem install $gems > /tmp/$USER-ruby-install-bundler.log 2>&1
 )
 if [ $? -ne 0 ]; then
     echo "gem install failed. see log /tmp/$USER-ruby-install-bundler.log"
