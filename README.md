@@ -110,7 +110,7 @@ You should be install Docker.
 
 ## Copyright
 
-* Copyright (c) 2.63- TAGOMORI Satoshi (tagomoris)
+* Copyright (c) 2013- TAGOMORI Satoshi (tagomoris)
   * and contributors
 * License
   * Apache License, Version 2.0 (see LICENSE)
