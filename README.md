@@ -16,9 +16,9 @@ Install perl (ex: 5.18.2) (and cpanm/carton/start_server)
 
     xbuild/perl-install 5.18.2 ~/local/perl-5.18
 
-Install ruby (ex: 2.1.1) (and bundler)
+Install ruby (ex: 2.6.0) (and bundler)
 
-    xbuild/ruby-install 2.1.1 ~/local/ruby-2.1
+    xbuild/ruby-install 2.6.0 ~/local/ruby-2.6
 
 Install node.js (ex: v0.10.26)
 
@@ -42,7 +42,7 @@ To update minor version, overwrite simply.
 
     xbuild/node-install v0.10.25 ~/local/node-v0.10
     xbuild/node-install v0.10.26 ~/local/node-v0.10
-    
+
     local/node-v0.10/bin/node -v #=> v0.10.26
     #
     # same for other languages as node.
@@ -51,7 +51,7 @@ Or, you can use `install` command simply.
 
     # xbuild/install LANG VERSION PATH [OPTIONS]
     #
-    xbuild/install ruby 2.1.1 ~/local/ruby-2.1
+    xbuild/install ruby 2.6.0 ~/local/ruby-2.6
 
 ### Replayable installation
 
@@ -59,7 +59,7 @@ Or, you can use `install` command simply.
 
 For force re-install, use `-f` option.
 
-    xbuild/ruby-install -f 2.1.1 ~/local/ruby-2.1
+    xbuild/ruby-install -f 2.6.0 ~/local/ruby-2.6
 
 ## How to use
 
@@ -69,19 +69,19 @@ Include installed `bin/` to PATH:
     export PATH=$HOME/local/perl-5.18/bin:$PATH
     cpanm -Lextlib -n --installdeps .
     # or carton install (or ...)
-    
+
     # ruby
-    export PATH=$HOME/local/ruby-2.1/bin:$PATH
+    export PATH=$HOME/local/ruby-2.6/bin:$PATH
     bundle install --path vendor
-    
+
     # node
     export PATH=$HOME/local/node-v0.10/bin:$PATH
     npm install
-    
+
     # php
     export PATH=$HOME/local/php-5.5.10/bin:$PATH
     pear install
-    
+
     # python
     export PATH=$HOME/local/python-2.7.6/bin:$PATH
     pip install -r requirements.txt
@@ -97,7 +97,7 @@ You should be install Docker.
 
     $ docker build -t xbuild-try .
     $ docker run --rm -i -t xbuild-try /bin/bash
-    in docker > $ xbuild-install ruby 2.1.1 /usr/local/ruby-2.1.1
+    in docker > $ xbuild-install ruby 2.6.0 /usr/local/ruby-2.6.0
 
 ## Contributors
 
@@ -105,12 +105,12 @@ You should be install Docker.
   * https://github.com/kentaro
   * @kentaro on twitter
 * yyuu for Python
-  * https://github.com/yyuu 
+  * https://github.com/yyuu
   * @_yyuu on twitter
 
 ## Copyright
 
-* Copyright (c) 2013- TAGOMORI Satoshi (tagomoris)
+* Copyright (c) 2.63- TAGOMORI Satoshi (tagomoris)
   * and contributors
 * License
   * Apache License, Version 2.0 (see LICENSE)
