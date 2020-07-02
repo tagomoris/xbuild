@@ -51,7 +51,7 @@ if [ "${TARGET_VERSION:0:5}" == "iojs-" ]; then
 else
     ARCHIVE_FILENAME="node-$TARGET_VERSION-$ARCH.tar.gz"
     ARCHIVE_DIRNAME="node-$TARGET_VERSION-$ARCH"
-    ARCHIVE_URL="http://nodejs.org/dist/$TARGET_VERSION/$ARCHIVE_FILENAME"
+    ARCHIVE_URL="https://nodejs.org/dist/$TARGET_VERSION/$ARCHIVE_FILENAME"
 fi
 
 set -e
