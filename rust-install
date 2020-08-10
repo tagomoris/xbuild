@@ -1,0 +1,71 @@
+#!/bin/bash
+
+while getopts fh OPT
+do
+  case $OPT in
+    "f") FLAG_FORCE="TRUE" ;;
+    "h") FLAG_HELP="TRUE" ;;
+    * ) FLAG_HELP="TRUE" ;;
+  esac
+done
+shift `expr $OPTIND - 1`
+
+CARGO_HOME="${CARGO_HOME:-$HOME/.cargo}"
+TARGET_VERSION="$1"
+RUSTUP_HOME="${2-${RUSTUP_HOME:-$HOME/.rustup}}"
+
+if [ "x"$FLAG_HELP != "x" -o "x$TARGET_VERSION" = "x" ]; then
+  echo "[usage] rust-install [-f] VERSION [location]"
+  echo "  ex: rust-install 1.45.0"
+  echo "  ex: rust-install 1.45.0 ~/local/rust-1.45.0"
+  exit 0
+fi
+
+cd $(dirname $0)
+
+export CARGO_HOME
+export RUSTUP_HOME
+
+if [ "x"$FLAG_FORCE = "x" -a -x "$CARGO_HOME/bin/rustup" ]; then
+  hit="$("$CARGO_HOME"/bin/rustup show | grep "^$TARGET_VERSION")"
+  if [ "x$hit" != "x" ]; then
+    echo "rust $TARGET_VERSION already installed."
+    echo "To do force re-install, use '-f' option"
+    exit 0
+  fi
+fi
+
+echo "Start to install rust $TARGET_VERSION ..."
+
+if [ ! -x "$CARGO_HOME"/bin/rustup ]; then
+  # Install using rustup-init
+  DL_RUSTUP_INIT="https://sh.rustup.rs"
+  
+  curl $DL_RUSTUP_INIT -sSf > /tmp/$USER-rustup-init.sh
+  if [ $? -ne 0 ]; then
+      echo "Failed to download rustup-init.sh from $DL_RUSTUP_INIT."
+      exit 1
+  fi
+
+  sh /tmp/$USER-rustup-init.sh -y --default-toolchain $TARGET_VERSION --profile minimal > /tmp/$USER-rust-install.log 2>&1
+  if [ $? -ne 0 ]; then
+      echo "rustup-init failed. see log: /tmp/$USER-rust-install.log"
+      exit 1
+  fi
+else
+  # Install using rustup
+  if [ "x"$FLAG_FORCE = "x" ]; then
+    "$CARGO_HOME"/bin/rustup toolchain install --profile minimal "$TARGET_VERSION" > /tmp/$USER-rust-install.log 2>&1
+  else
+    "$CARGO_HOME"/bin/rustup toolchain install --profile minimal --force "$TARGET_VERSION" > /tmp/$USER-rust-install.log 2>&1
+  fi
+
+  if [ $? -ne 0 ]; then
+      echo "rustup failed. see log: /tmp/$USER-rust-install.log"
+      exit 1
+  fi
+fi
+
+echo "rust $TARGET_VERSION successfully installed on $RUSTUP_HOME"
+echo "To use this rust, do 'export PATH=$CARGO_HOME/bin:\$PATH' and 'export RUSTUP_HOME=$RUSTUP_HOME'."
+echo "If you want to use this rust as default toolchain, you should also do 'rustup default $TARGET_VERSION'"
