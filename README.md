@@ -9,6 +9,7 @@ Supports:
 * PHP
 * Python
 * Go
+* Rust
 
 ## How to install
 
@@ -37,6 +38,10 @@ Install Python (ex: 2.7.6)
 Install Go (ex: 1.3.3)
 
     xbuild/go-install 1.3.3 ~/local/go-1.3.3
+
+Install Rust (ex: 1.45.0)
+
+    xbuild/rust-install 1.45.0 ~/local/rust-1.45.0
 
 To update minor version, overwrite simply.
 
@@ -90,6 +95,11 @@ Include installed `bin/` to PATH:
     export GOROOT=$HOME/local/go-1.3.3
     export PATH=$GOROOT/bin:$PATH
     go version
+
+    # rust
+    export RUSTUP_HOME=$HOME/local/rust-1.45.0
+    export PATH=$HOME/.cargo/bin:$PATH
+    rustc --version
 
 ## How to try with Docker
 
