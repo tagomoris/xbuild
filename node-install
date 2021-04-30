@@ -18,7 +18,7 @@ if [ "x"$FLAG_HELP != "x" -o "x$LOCATION" = "x" ]; then
     echo "[usage] node-install [-f] VERSION LOCATION [arch]"
     echo "  ex: node-install v0.10.26 ~/local/node-v0.10"
     echo "  ex: node-install v0.10.26 ~/local/node-v0.10 darwin-x86"
-    echo "  default arch is 'linux-x64'"
+    echo "  default arch is 'linux-x64' or 'linux-arm64' based on \$(arch)"
     echo ""
     echo "  for io.js:"
     echo "  ex: node-install iojs-v1.2.0 ~/local/iojs-v.1.2.0"
@@ -28,7 +28,11 @@ if [ "x"$FLAG_HELP != "x" -o "x$LOCATION" = "x" ]; then
 fi
 
 if [ "x$ARCH" = "x" ]; then
-    ARCH="linux-x64"
+    if [ "x$(arch)" = "xaarch64" ]; then
+        ARCH="linux-arm64"
+    else
+        ARCH="linux-x64"
+    fi
 fi
 
 cd $(dirname $0)
