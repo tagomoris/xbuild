@@ -46,7 +46,7 @@ if [ "x"$FLAG_FORCE = "x" -a -d "$LOCATION" -a -x "$LOCATION/bin/go" ]; then
 fi
 
 ARCHIVE_FILENAME="go$TARGET_VERSION.$OS-$ARCH.tar.gz"
-DL_GOLANG_ORG="https://storage.googleapis.com/golang"
+DL_GOLANG_ORG="https://go.dev/dl"
 
 echo "Start to install go $TARGET_VERSION ..."
 
@@ -54,7 +54,7 @@ set -e
 
 mkdir -p $LOCATION
 
-curl -s $DL_GOLANG_ORG/$ARCHIVE_FILENAME | tar -C $LOCATION -xzf -
+curl -sL $DL_GOLANG_ORG/$ARCHIVE_FILENAME | tar -C $LOCATION -xzf -
 cp -a $LOCATION/go/* $LOCATION/
 rm -rf $LOCATION/go
 
